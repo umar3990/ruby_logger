@@ -14,24 +14,35 @@ class Sink
     end
   
     def log(message, ts_format)
-      # Implement the logic to handle logging to the specific sink
-      # You may include timestamp enrichment here
-       if type == 'FILE'
-        @ts_format = ts_format
-        log_entry = format_log_entry(message)
-
-        # Append the log entry to the file
-        begin
-          File.open("info.log", 'a') { |file| file.puts(log_entry) }
-        rescue StandardError => e
-          puts "Error writing to log file: #{e.message}"
-        end
-        rotate_logs if needs_rotation?
+      @ts_format = ts_format
+      log_entry = format_log_entry(message)
+    
+      case type
+      when 'FILE'
+        log_to_file(log_entry)
+      when 'CONSOLE'
+        log_to_console(log_entry)
+      else
+        puts "Unsupported log type: #{type}"
       end
     end
-
-
+    
     private
+
+    def log_to_file(log_entry)
+      # Append the log entry to the file
+      begin
+        File.open("info.log", 'a') { |file| file.puts(log_entry) }
+      rescue StandardError => e
+        puts "Error writing to log file: #{e.message}"
+      end
+      rotate_logs if needs_rotation?
+    end
+    
+    def log_to_console(log_entry)
+      # Print the log entry to the console
+      puts log_entry
+    end
 
     def format_log_entry(message)
       timestamp = format_timestamp
