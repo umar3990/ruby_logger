@@ -35,13 +35,22 @@ class Sink
 
     def format_log_entry(message)
       timestamp = format_timestamp
-      puts format_timestamp
       "#{message.namespace}: #{message.level} [#{timestamp}] #{message.content}"
     end
   
     def format_timestamp
-      Time.now.strftime(@ts_format)
+      formatted_timestamp = case @ts_format
+      when 'ddmmyyyyhhmmss'
+        Time.now.strftime("%02d%02m%Y%02H%02M%S")
+      when 'dd:mm:yyyy hh:mm:ss'
+        Time.now.strftime("%d:%m:%Y %H:%M:%S")
+      else
+        Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      end
+    
+      formatted_timestamp
     end
+    
 
     def needs_rotation?
       # Determine whether log rotation is needed based on file size
