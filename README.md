@@ -8,20 +8,24 @@ The Ruby Logger Library is a versatile logging solution for Ruby applications. I
 
 ruby_logger_library/
 │
+├── spec/logger_spec.rb
 ├── lib/
 │ ├── logger/
 │ │ ├── message.rb
 │ │ ├── sink.rb
 │ │ └── logger.rb
+│ │ └── file_logger.rb
 │ │
 │ └── logger.rb
 │
 ├── config/
 │ └── logger_config.rb
 │
-├── example_usage.rb
+├── demo_usage.rb
 │
 └── README.md
+│
+└── Gemfile
 
 
 ## Features
@@ -75,6 +79,10 @@ logger.log(message1)
 logger.log(message2)
 
 
+# Testing
+bundle i
+bundle exec rspec spec/logger_spec.rb
+
 
 
 
@@ -85,6 +93,8 @@ lib/logger/sink.rb: This file contains the definition of the Sink class.
 lib/logger/logger.rb: This file contains the definition of the Logger class.
 
 lib/logger.rb: This file can serve as an entry point for requiring all the logger-related classes. It can include the necessary class files.
+
+lib/logger/file_logger.rb This file responsible for handeling log files.
 
 config/logger_config.rb: This file contains the configuration for the logger.
 
